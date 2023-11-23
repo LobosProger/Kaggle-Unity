@@ -8,7 +8,7 @@ public class ExerciseSelectorModel : MonoBehaviour
 {
 	private const string keyToAccessSelectedExercises = "Selected exercises";
 	private const int maxAmountOfExercises = 6;
-	private List<bool> selectedExerciseToComplete;
+	private bool[] selectedExerciseToComplete = new bool[maxAmountOfExercises];
 
 	private void Awake()
 	{
@@ -24,7 +24,7 @@ public class ExerciseSelectorModel : MonoBehaviour
 
 		if (json != "" && json != "[]")
 		{
-			selectedExerciseToComplete = JsonConvert.DeserializeObject<List<bool>>(json);
+			selectedExerciseToComplete = JsonConvert.DeserializeObject<bool[]>(json);
 		}
 	}
 
@@ -36,12 +36,9 @@ public class ExerciseSelectorModel : MonoBehaviour
 
 	private void MakeAllExercisesSelectedOnDefaultState()
 	{
-		selectedExerciseToComplete.Clear();
-		selectedExerciseToComplete = new List<bool>(maxAmountOfExercises);
-
 		for (int i = 0; i < maxAmountOfExercises; i++)
 		{
-			selectedExerciseToComplete.Add(true);
+			selectedExerciseToComplete[i] = true;
 		}
 	}
 
@@ -50,13 +47,8 @@ public class ExerciseSelectorModel : MonoBehaviour
 		SaveSelectedExercisesInMemory();
 	}
 
-	public List<bool> GetSelectedExercises()
+	public bool[] GetSelectedExercises()
 	{
-		if (selectedExerciseToComplete.Count == 0)
-		{
-			LoadSelectedExercisesFromMemory();
-		}
-
 		return selectedExerciseToComplete;
 	}
 
