@@ -4,15 +4,30 @@ using UnityEngine;
 
 public class ExerciseSelectorController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] private ExerciseSelectorModel exerciseSelectorModel;
+    [SerializeField] private ExerciseSelectorView exerciseSelectorView;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+	private void Start()
+	{
+		List<bool> selectedExercises = exerciseSelectorModel.GetSelectedExercises();
+		for(int i = 0; i < selectedExercises.Count; i++)
+		{
+			exerciseSelectorView.ShowSelectedExercise(i, selectedExercises[i]);
+		}
+	}
+
+	private void OnEnable()
+	{
+		exerciseSelectorView.OnClickSelectingExerciseButton += OnSelectExerciseButton;
+	}
+
+	private void OnDisable()
+	{
+		exerciseSelectorView.OnClickSelectingExerciseButton -= OnSelectExerciseButton;
+	}
+
+	private void OnSelectExerciseButton(int exerciseIndex, bool isSelected)
+	{
+		exerciseSelectorModel.SetSelectedExercise(exerciseIndex, isSelected);
+	}
 }
