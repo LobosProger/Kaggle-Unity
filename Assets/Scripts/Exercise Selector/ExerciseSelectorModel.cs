@@ -52,5 +52,8 @@ public class ExerciseSelectorModel : MonoBehaviour
 		return selectedExerciseToComplete;
 	}
 
-	public void SetSelectedExercise(int exerciseIndex, bool isSelected) => selectedExerciseToComplete[exerciseIndex] = isSelected;
+	public void SetSelectedExercise(int exerciseIndex, bool isSelected)
+	{
+		selectedExerciseToComplete[exerciseIndex] = isSelected;
+	}
 }

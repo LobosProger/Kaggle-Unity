@@ -7,6 +7,11 @@ public class ExerciseCalendarController : MonoBehaviour
 {
 	[SerializeField] private ExerciseCalendarModel exerciseCalendarModel;
 	[SerializeField] private CalendarController exerciseCalendarView;
+	[SerializeField] private PageSwitcherController exerciseCompletionPage;
+	
+	public Action OnExerciseCompleted;
+	
+	private DateTime selectedDateTimeForCompletion;
 
 	private void Start()
 	{
@@ -16,17 +21,25 @@ public class ExerciseCalendarController : MonoBehaviour
 
 	private void OnEnable()
 	{
-		exerciseCalendarView.OnClickDateForCompleteExerciseAction += OnCompletedExerciseByDate;
+		exerciseCalendarView.OnClickDateForCompleteExerciseAction += SelectExerciseByDate;
+		OnExerciseCompleted += OnCompleteExercise;
 	}
 
 	private void OnDisable()
 	{
-		exerciseCalendarView.OnClickDateForCompleteExerciseAction -= OnCompletedExerciseByDate;
+		exerciseCalendarView.OnClickDateForCompleteExerciseAction -= SelectExerciseByDate;
+		OnExerciseCompleted -= OnCompleteExercise;
 	}
 
-	private void OnCompletedExerciseByDate(DateTime dateTime)
+	private void SelectExerciseByDate(DateTime dateTime)
+	{
+		selectedDateTimeForCompletion = dateTime;
+		exerciseCompletionPage.ShowThisPage();
+	}
+
+	private void OnCompleteExercise()
 	{
 		Debug.Log("complete exercise!");
-		exerciseCalendarModel.AddCompletedExerciseDate(dateTime);
+		exerciseCalendarModel.AddCompletedExerciseDate(selectedDateTimeForCompletion);
 	}
 }
