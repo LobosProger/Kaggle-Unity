@@ -6,8 +6,8 @@ using System;
 public class CalendarDateItem : MonoBehaviour {
 
     [SerializeField] private Text dayText;
-    private Button dateItemButton;
 
+    private Button dateItemButton;
     private DateTime dateTime;
 
 	private void Awake()
@@ -24,13 +24,11 @@ public class CalendarDateItem : MonoBehaviour {
 
 	public void OnDateCompletingExerciseClick()
 	{
-		dateItemButton.interactable = false;
+		//dateItemButton.interactable = false;
         CalendarController._calendarInstance.OnClickDateForCompleteExerciseAction?.Invoke(dateTime);
 	}
 
 	// Button setuped in way, that when it becomes non interactable, it
 	// highlights in needing color
 	public void HighlightDateItem() => dateItemButton.interactable = false;
-
-	//public bool IsDateEqualToDateItem(DateTime dateTime) => this.dateTime.ToShortDateString() == dateTime.ToShortDateString();
 }

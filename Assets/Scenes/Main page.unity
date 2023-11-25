@@ -8664,10 +8664,10 @@ PrefabInstance:
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 4633993233795816952, guid: b329766154724ee4aad18e7f6923cb0d, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1554163690}
+      addedObject: {fileID: 1935709848}
     - targetCorrespondingSourceObject: {fileID: 4633993233795816952, guid: b329766154724ee4aad18e7f6923cb0d, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1935709848}
+      addedObject: {fileID: 1554163690}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 8838455967836996962, guid: b329766154724ee4aad18e7f6923cb0d, type: 3}
       insertIndex: -1
