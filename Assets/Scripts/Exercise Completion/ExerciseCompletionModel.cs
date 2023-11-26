@@ -8,7 +8,8 @@ public class ExerciseCompletionModel : MonoBehaviour
     [SerializeField] private ExerciseSelectorModel exerciseSelectorModel;
 
 	public bool[] AllExercises => exerciseSelectorModel.GetSelectedExercises();
-	
+	public int AmountSelectedExercises => AllExercises.Where(selectedExercise => selectedExercise == true).Count();
+
 	private float timeOfCompletingEachExercise => (timeForCompletingExercises / AllExercises.Where(selected => selected == true).Count());
 	private float timeForCompletingExercises;
 

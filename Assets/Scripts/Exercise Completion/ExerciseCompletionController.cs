@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,14 +11,18 @@ public class ExerciseCompletionController : MonoBehaviour
 
 	private bool isCompletingExercisesStarted = false;
 	private int currentIndexOfSelectedExercises = 0;
+
 	private float remainedOverallTimeOfCompletingExercises;
 	private float remainedTimeOfCompletingCurrentExercise;
+
+	private DateTime selectedDateTimeForCompletion;
 
 	private void OnEnable()
 	{
 		exerciseCompletionView.OnAddTimeClicked += AddMinuteToTime;
 		exerciseCompletionView.OnRemoveTimeClicked += RemoveMinuteFromTime;
 		exerciseCompletionView.OnStartClicked += StartCompletionOfExercise;
+		ExerciseEvents.OnExerciseSelectedForCompletion += (dateTimeSelected) => { selectedDateTimeForCompletion = dateTimeSelected; };
 	}
 
 	private void OnDisable()
@@ -25,6 +30,7 @@ public class ExerciseCompletionController : MonoBehaviour
 		exerciseCompletionView.OnAddTimeClicked -= AddMinuteToTime;
 		exerciseCompletionView.OnRemoveTimeClicked -= RemoveMinuteFromTime;
 		exerciseCompletionView.OnStartClicked -= StartCompletionOfExercise;
+		ExerciseEvents.OnExerciseSelectedForCompletion -= (dateTimeSelected) => { selectedDateTimeForCompletion = dateTimeSelected; };
 	}
 
 	private void Update()
@@ -96,6 +102,10 @@ public class ExerciseCompletionController : MonoBehaviour
 
 	private void OnCompletedExercise()
 	{
+		int totalAmountCompletedExercises = exerciseCompletionModel.AmountSelectedExercises;
+		float totalAmountOfCompletionInSeconds = exerciseCompletionModel.GetTimeOfCompletionInSeconds();
+
+		ExerciseEvents.OnExerciseCompleted?.Invoke(selectedDateTimeForCompletion, totalAmountCompletedExercises, totalAmountOfCompletionInSeconds);
 		exerciseCompletionView.ShowSetupingPanelOfTimer();
 		mainPage.ShowThisPage();
 	}
