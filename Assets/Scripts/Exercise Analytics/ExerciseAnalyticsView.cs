@@ -28,7 +28,7 @@ public class ExerciseAnalyticsView : MonoBehaviour
 		yearSelection.onClick.AddListener(OnYearButtonClickedEvent);
 	}
 
-	public void ShowAnalyticsOnBarCharts(ExerciseCompletionShowableData exerciseCompletionData)
+	public void ShowAnalyticsOnBarCharts(ExerciseCompletionShowableData exerciseCompletionData, string titleToEachBargraph)
 	{
 		ClearPanelOfBarChart();
 		for (int i=0; i < exerciseCompletionData.GetAmountOfShowingBargraphs(); i++)
@@ -37,7 +37,7 @@ public class ExerciseAnalyticsView : MonoBehaviour
 			float timeFillAmount = exerciseCompletionData.GetTimeForBargraphByIndex(i);
 			float difficultyFillAmount = exerciseCompletionData.GetDifficultyForBargraphByIndex(i);
 			
-			CreateBarChart(regularityFillAmount, timeFillAmount, difficultyFillAmount, $"Week{i+1}");
+			CreateBarChart(regularityFillAmount, timeFillAmount, difficultyFillAmount, $"{titleToEachBargraph} {i + 1}");
 		}
 	}
 

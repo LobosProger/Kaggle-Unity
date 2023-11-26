@@ -51,7 +51,7 @@ public class ExerciseAnalyticsModel : MonoBehaviour
 		SaveNeedingForWorkCollectionInMemory();
 	}
 
-	public ExerciseCompletionShowableData GetDataDataAnalytics() => new ExerciseCompletionShowableData(completionDataByDate, 4, 1);
+	public ExerciseCompletionShowableData GetDayDataAnalytics() => new ExerciseCompletionShowableData(completionDataByDate, 4, 1);
 
 	public ExerciseCompletionShowableData GetWeekDataAnalytics() => new ExerciseCompletionShowableData(completionDataByDate, 4, 7);
 
