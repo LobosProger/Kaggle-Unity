@@ -2,12 +2,31 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static ExerciseAnalyticsModel;
+using UnityEngine.UI;
+using ExerciseAnalyticsNamespace;
 
 public class ExerciseAnalyticsView : MonoBehaviour
 {
     [SerializeField] private BarView barPrefab;
     [SerializeField] private Transform barsPanel;
+
+	[SerializeField] private Button daySelection;
+	[SerializeField] private Button weekSelection;
+	[SerializeField] private Button monthSelection;
+	[SerializeField] private Button yearSelection;
+
+	public Action OnDayButtonClicked;
+	public Action OnWeekButtonClicked;
+	public Action OnMonthButtonClicked;
+	public Action OnYearButtonClicked;
+
+	private void Awake()
+	{
+		daySelection.onClick.AddListener(OnDayButtonClickedEvent);
+		weekSelection.onClick.AddListener(OnWeekButtonClickedEvent);
+		monthSelection.onClick.AddListener(OnMonthButtonClickedEvent);
+		yearSelection.onClick.AddListener(OnYearButtonClickedEvent);
+	}
 
 	public void ShowAnalyticsOnBarCharts(ExerciseCompletionShowableData exerciseCompletionData)
 	{
@@ -34,5 +53,25 @@ public class ExerciseAnalyticsView : MonoBehaviour
 		{
 			Destroy(eachBar.gameObject);
 		}
+	}
+
+	private void OnDayButtonClickedEvent()
+	{
+		OnDayButtonClicked?.Invoke();
+	}
+
+	private void OnWeekButtonClickedEvent()
+	{
+		OnWeekButtonClicked?.Invoke();
+	}
+
+	private void OnMonthButtonClickedEvent()
+	{
+		OnMonthButtonClicked?.Invoke();
+	}
+
+	private void OnYearButtonClickedEvent()
+	{
+		OnYearButtonClicked?.Invoke();
 	}
 }
