@@ -31,7 +31,7 @@ public class ExerciseCalendarController : MonoBehaviour
 	{
 		ExerciseEvents.OnExerciseSelectedForCompletion?.Invoke(dateTime);
 		exerciseCompletionPage.ShowThisPage();
-		ExerciseEvents.OnExerciseCompleted?.Invoke(dateTime, 6, 600);
+		//ExerciseEvents.OnExerciseCompleted?.Invoke(dateTime, 6, 600);
 	}
 
 	private void OnCompleteExercise(DateTime dateTimeCompletion)
