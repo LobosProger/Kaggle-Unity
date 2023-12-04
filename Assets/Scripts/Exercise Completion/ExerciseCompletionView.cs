@@ -7,22 +7,30 @@ using UnityEngine.UI;
 
 public class ExerciseCompletionView : MonoBehaviour
 {
+	private const string textWhenStartedCompletionOfExercise = "Стоп";
+	private const string textWhenStopedCompletionOfExercise = "Старт!";
+
 	public Action OnAddTimeClicked;
 	public Action OnRemoveTimeClicked;
-	public Action OnStartClicked;
+	public Action OnSwitchableTimerButtonClicked;
 
     [SerializeField] private TMP_Text timerText;
     [SerializeField] private Button addMinuteTimeButton;
     [SerializeField] private Button removeMinuteTimeButton;
-    [SerializeField] private Button startCompletingExerciseButton;
+    [SerializeField] private Button startAndStopCompletingExerciseButton;
+	[SerializeField] private TMP_Text startAndStopStateOfButton;
+	[SerializeField] private Image progressBarOfCompletion;
+	[SerializeField] private Image iconOfCompletion;
 	[SerializeField] private CanvasGroup setupingPanelOfTimer;
 	[SerializeField] private Image[] exerciseImages;
+
+	private bool isCompletionStarted;
 
 	private void Start()
 	{
 		addMinuteTimeButton.onClick.AddListener(OnAddTimeButtonClicked);
 		removeMinuteTimeButton.onClick.AddListener(OnRemoveTimeButtonClicked);
-		startCompletingExerciseButton.onClick.AddListener(OnStartButtonClicked);
+		startAndStopCompletingExerciseButton.onClick.AddListener(OnSwitchableButtonClicked);
 	}
 
 	public void HideSetupingPanelOfTimer()
@@ -47,10 +55,24 @@ public class ExerciseCompletionView : MonoBehaviour
 		exerciseImages[index].enabled = true;
 	}
 
-	public void ShowTimeOnTimer(float time)
+	public void HideAllImagesOfExercises()
 	{
-		TimeSpan formatTime = TimeSpan.FromSeconds(time);
+		foreach (var eachImage in exerciseImages)
+		{
+			eachImage.enabled = false;
+		}
+	}
+
+	public void ShowProgressOfCompletion(float remainedTime, float fillAmountOfProgressBar)
+	{
+		TimeSpan formatTime = TimeSpan.FromSeconds(remainedTime);
 		timerText.text = formatTime.ToString("mm':'ss");
+		progressBarOfCompletion.fillAmount = fillAmountOfProgressBar;
+	}
+
+	public void SetVisibillityOfIconOfCompletedAllExercises(bool visible)
+	{
+		iconOfCompletion.enabled = visible;
 	}
 
 	private void OnAddTimeButtonClicked()
@@ -63,8 +85,23 @@ public class ExerciseCompletionView : MonoBehaviour
 		OnRemoveTimeClicked?.Invoke();
 	}
 
-	private void OnStartButtonClicked()
+	private void OnSwitchableButtonClicked()
 	{
-		OnStartClicked?.Invoke();
+		ChangeStateOfTimerButtonText();
+		OnSwitchableTimerButtonClicked?.Invoke();
+	}
+
+	public void ChangeStateOfTimerButtonText()
+	{
+		if (!isCompletionStarted)
+		{
+			isCompletionStarted = true;
+			startAndStopStateOfButton.text = textWhenStartedCompletionOfExercise;
+		}
+		else
+		{
+			isCompletionStarted = false;
+			startAndStopStateOfButton.text = textWhenStopedCompletionOfExercise;
+		}
 	}
 }

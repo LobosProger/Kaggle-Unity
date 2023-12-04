@@ -15,6 +15,9 @@ public class PageSwitcherController : MonoBehaviour
 		if(pageSwitcherView.IsTransparencyOfPageIsZero())
 		{
 			pageSwitcherView.HidePageAndDisableRaycastInteracting();
+		} else
+		{
+			pageSwitcherView.ShowPageAndActivateRaycastInteracting();
 		}
 	}
 

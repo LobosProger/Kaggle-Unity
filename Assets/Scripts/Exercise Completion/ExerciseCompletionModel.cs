@@ -11,11 +11,14 @@ public class ExerciseCompletionModel : MonoBehaviour
 	public int AmountSelectedExercises => AllExercises.Where(selectedExercise => selectedExercise == true).Count();
 
 	private float timeOfCompletingEachExercise => (timeForCompletingExercises / AllExercises.Where(selected => selected == true).Count());
-	private float timeForCompletingExercises;
+	private float timeForCompletingExercises = 600;
 
 	public void AddMinuteToTime()
 	{
-		timeForCompletingExercises += 60;
+		if(timeForCompletingExercises + 60 <= 600)
+		{
+			timeForCompletingExercises += 60;
+		}
 	}
 
 	public void RemoveMinuteToTime()

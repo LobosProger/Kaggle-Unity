@@ -6,7 +6,7 @@ using System;
 public class CalendarDateItem : MonoBehaviour {
 
     [SerializeField] private Text dayText;
-
+	[SerializeField] private CanvasGroup canvasGroup;
     private Button dateItemButton;
     private DateTime dateTime;
 
@@ -18,9 +18,18 @@ public class CalendarDateItem : MonoBehaviour {
 
 	public void ShowDateItem(DateTime dateTime)
     {
-        this.dateTime = dateTime;
+		canvasGroup.alpha = 1;
+		canvasGroup.blocksRaycasts = true;
+
+		this.dateTime = dateTime;
         dayText.text = dateTime.Day.ToString();
     }
+
+	public void HideItemDatePicker()
+	{
+		canvasGroup.alpha = 0;
+		canvasGroup.blocksRaycasts = false;
+	}
 
 	public void OnDateCompletingExerciseClick()
 	{

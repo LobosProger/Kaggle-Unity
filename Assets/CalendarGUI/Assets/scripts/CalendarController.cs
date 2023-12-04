@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,7 +9,7 @@ public class CalendarController : MonoBehaviour
 {
     public GameObject _calendarPanel;
     public Text _yearNumText;
-    public Text _monthNumText;
+    public TMP_Text _monthNumText;
 
     public GameObject _item;
 
@@ -55,9 +56,9 @@ public class CalendarController : MonoBehaviour
 
 		for (int i = 0; i < _totalDateNum; i++)
         {
-            _dateItems[i].SetActive(false);
+			_dateItems[i].GetComponent<CalendarDateItem>().HideItemDatePicker();
 
-            if (i >= index)
+			if (i >= index)
             {
                 DateTime thatDay = firstDay.Date.AddDays(date);
                 if (thatDay.Month == firstDay.Month)
@@ -73,10 +74,52 @@ public class CalendarController : MonoBehaviour
             }
         }
         _yearNumText.text = _dateTime.Year.ToString();
-        _monthNumText.text = _dateTime.Month.ToString();
-    }
+		switch (_dateTime.Month)
+		{
+			case 1:
+				_monthNumText.text = "Январь";
+				break;
+			case 2:
+				_monthNumText.text = "Февраль";
+				break;
+			case 3:
+				_monthNumText.text = "Март";
+				break;
+			case 4:
+				_monthNumText.text = "Апрель";
+				break;
+			case 5:
+				_monthNumText.text = "Май";
+				break;
+			case 6:
+				_monthNumText.text = "Июнь";
+				break;
+			case 7:
+				_monthNumText.text = "Июль";
+				break;
+			case 8:
+				_monthNumText.text = "Август";
+				break;
+			case 9:
+				_monthNumText.text = "Сентябрь";
+				break;
+			case 10:
+				_monthNumText.text = "Октябрь";
+				break;
+			case 11:
+				_monthNumText.text = "Ноябрь";
+				break;
+			case 12:
+				_monthNumText.text = "Декабрь";
+				break;
+			default:
+				_monthNumText.text = "Неизвестный месяц";
+				break;
+		}
 
-    int GetDays(DayOfWeek day)
+	}
+
+	int GetDays(DayOfWeek day)
     {
         switch (day)
         {
@@ -116,7 +159,7 @@ public class CalendarController : MonoBehaviour
         CreateCalendar();
     }
 
-	public void HighlightCompletedExerciseByDate(DateTime dateTime)
+	public void ShowCompletedExerciseByDate(DateTime dateTime)
 	{
 		if (datesAndAddedDateItems.ContainsKey(dateTime))
 		{
@@ -128,7 +171,7 @@ public class CalendarController : MonoBehaviour
 	{
 		foreach (DateTime date in completedExerciseDates)
 		{
-			HighlightCompletedExerciseByDate(date);
+			ShowCompletedExerciseByDate(date);
 		}
 	}
 }

@@ -37,7 +37,7 @@ public class ExerciseCalendarController : MonoBehaviour
 	private void OnCompleteExercise(DateTime dateTimeCompletion)
 	{
 		exerciseCalendarModel.AddCompletedExerciseDate(dateTimeCompletion);
-		//exerciseCalendarView.ShowCompletedExercisesByDates(dateTimeCompletion);
+		exerciseCalendarView.ShowCompletedExerciseByDate(dateTimeCompletion);
 		Debug.Log("complete exercise!");
 	}
 }

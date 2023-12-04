@@ -14,6 +14,7 @@ public class ExerciseCompletionController : MonoBehaviour
 
 	private float remainedOverallTimeOfCompletingExercises;
 	private float remainedTimeOfCompletingCurrentExercise;
+	private int totalAmountOfCompletedExercisesDuringSession = 1; // After start, we highlight first exercise, which user will complete
 
 	private DateTime selectedDateTimeForCompletion;
 
@@ -21,7 +22,7 @@ public class ExerciseCompletionController : MonoBehaviour
 	{
 		exerciseCompletionView.OnAddTimeClicked += AddMinuteToTime;
 		exerciseCompletionView.OnRemoveTimeClicked += RemoveMinuteFromTime;
-		exerciseCompletionView.OnStartClicked += StartCompletionOfExercise;
+		exerciseCompletionView.OnSwitchableTimerButtonClicked += SwitchStateCompletionOfExercise;
 		ExerciseEvents.OnExerciseSelectedForCompletion += (dateTimeSelected) => { selectedDateTimeForCompletion = dateTimeSelected; };
 	}
 
@@ -29,7 +30,7 @@ public class ExerciseCompletionController : MonoBehaviour
 	{
 		exerciseCompletionView.OnAddTimeClicked -= AddMinuteToTime;
 		exerciseCompletionView.OnRemoveTimeClicked -= RemoveMinuteFromTime;
-		exerciseCompletionView.OnStartClicked -= StartCompletionOfExercise;
+		exerciseCompletionView.OnSwitchableTimerButtonClicked -= SwitchStateCompletionOfExercise;
 		ExerciseEvents.OnExerciseSelectedForCompletion -= (dateTimeSelected) => { selectedDateTimeForCompletion = dateTimeSelected; };
 	}
 
@@ -39,7 +40,8 @@ public class ExerciseCompletionController : MonoBehaviour
 		{
 			remainedOverallTimeOfCompletingExercises -= Time.deltaTime;
 			remainedTimeOfCompletingCurrentExercise -= Time.deltaTime;
-			exerciseCompletionView.ShowTimeOnTimer(remainedOverallTimeOfCompletingExercises);
+			float fillAmount = Mathf.InverseLerp(exerciseCompletionModel.GetTimeOfCompletionInSeconds(), 0, remainedOverallTimeOfCompletingExercises);
+			exerciseCompletionView.ShowProgressOfCompletion(remainedOverallTimeOfCompletingExercises, fillAmount);
 
 			if(remainedTimeOfCompletingCurrentExercise <= 0)
 			{
@@ -50,7 +52,7 @@ public class ExerciseCompletionController : MonoBehaviour
 			if(remainedOverallTimeOfCompletingExercises <= 0)
 			{
 				isCompletingExercisesStarted = false;
-				OnCompletedExercise();
+				OnCompletedExercisesSession();
 			}
 		}
 	}
@@ -60,7 +62,7 @@ public class ExerciseCompletionController : MonoBehaviour
 		exerciseCompletionModel.AddMinuteToTime();
 
 		float timeOfCompletion = exerciseCompletionModel.GetTimeOfCompletionInSeconds();
-		exerciseCompletionView.ShowTimeOnTimer(timeOfCompletion);
+		exerciseCompletionView.ShowProgressOfCompletion(timeOfCompletion, 0f);
 	}
 
 	private void RemoveMinuteFromTime()
@@ -68,20 +70,28 @@ public class ExerciseCompletionController : MonoBehaviour
 		exerciseCompletionModel.RemoveMinuteToTime();
 
 		float timeOfCompletion = exerciseCompletionModel.GetTimeOfCompletionInSeconds();
-		exerciseCompletionView.ShowTimeOnTimer(timeOfCompletion);
+		exerciseCompletionView.ShowProgressOfCompletion(timeOfCompletion, 0f);
 	}
 
-	private void StartCompletionOfExercise()
+	private void SwitchStateCompletionOfExercise()
 	{
-		if(exerciseCompletionModel.GetTimeOfCompletionInSeconds() > 0)
+		if(!isCompletingExercisesStarted)
 		{
-			remainedOverallTimeOfCompletingExercises = exerciseCompletionModel.GetTimeOfCompletionInSeconds();
-			remainedTimeOfCompletingCurrentExercise = exerciseCompletionModel.GetTimeOfCompletingCurrentExercise();
-			currentIndexOfSelectedExercises = 0;
-			SwitchIndexOfSelectedExercisesAndShowOnUI();
-			
-			exerciseCompletionView.HideSetupingPanelOfTimer();
-			isCompletingExercisesStarted = true;
+			if (exerciseCompletionModel.GetTimeOfCompletionInSeconds() > 0)
+			{
+				remainedOverallTimeOfCompletingExercises = exerciseCompletionModel.GetTimeOfCompletionInSeconds();
+				remainedTimeOfCompletingCurrentExercise = exerciseCompletionModel.GetTimeOfCompletingCurrentExercise();
+				currentIndexOfSelectedExercises = 0;
+				totalAmountOfCompletedExercisesDuringSession = 1;
+				SwitchIndexOfSelectedExercisesAndShowOnUI();
+
+				exerciseCompletionView.HideSetupingPanelOfTimer();
+				isCompletingExercisesStarted = true;
+			}
+		} else
+		{
+			isCompletingExercisesStarted = false;
+			OnCompletedExercisesSession();
 		}
 	}
 
@@ -95,18 +105,30 @@ public class ExerciseCompletionController : MonoBehaviour
 				currentIndexOfSelectedExercises = i;
 				exerciseCompletionView.ShowCurrentCompletingExerciseByIndex(currentIndexOfSelectedExercises);
 				currentIndexOfSelectedExercises++;
+				totalAmountOfCompletedExercisesDuringSession++;
 				break;
 			}
 		}
 	}
 
-	private void OnCompletedExercise()
+	private void OnCompletedExercisesSession()
 	{
-		int totalAmountCompletedExercises = exerciseCompletionModel.AmountSelectedExercises;
-		float totalAmountOfCompletionInSeconds = exerciseCompletionModel.GetTimeOfCompletionInSeconds();
+		// By this, we calculate total consumed time on completion during session, NOT selected
+		float totalAmountOfCompletionInSeconds = exerciseCompletionModel.GetTimeOfCompletionInSeconds() - remainedOverallTimeOfCompletingExercises;
+		ExerciseEvents.OnExerciseCompleted?.Invoke(selectedDateTimeForCompletion, totalAmountOfCompletedExercisesDuringSession, totalAmountOfCompletionInSeconds);
+		StartCoroutine(ReturningBackToMainPage());
+	}
 
-		ExerciseEvents.OnExerciseCompleted?.Invoke(selectedDateTimeForCompletion, totalAmountCompletedExercises, totalAmountOfCompletionInSeconds);
+	private IEnumerator ReturningBackToMainPage()
+	{
+		exerciseCompletionView.ShowProgressOfCompletion(600, 1f);
+		exerciseCompletionView.SetVisibillityOfIconOfCompletedAllExercises(true);
+		exerciseCompletionView.ChangeStateOfTimerButtonText();
 		exerciseCompletionView.ShowSetupingPanelOfTimer();
+		yield return new WaitForSeconds(1.5f);
 		mainPage.ShowThisPage();
+		exerciseCompletionView.ShowProgressOfCompletion(600, 0f);
+		exerciseCompletionView.SetVisibillityOfIconOfCompletedAllExercises(false);
+		exerciseCompletionView.HideAllImagesOfExercises();
 	}
 }
