@@ -86,11 +86,13 @@ public class ExerciseCompletionController : MonoBehaviour
 				SwitchIndexOfSelectedExercisesAndShowOnUI();
 
 				exerciseCompletionView.HideSetupingPanelOfTimer();
+				exerciseCompletionView.ChangeStateOfSTartExerciseButton(true);
 				isCompletingExercisesStarted = true;
 			}
 		} else
 		{
 			isCompletingExercisesStarted = false;
+			exerciseCompletionView.ChangeStateOfSTartExerciseButton(false);
 			OnCompletedExercisesSession();
 		}
 	}
@@ -123,9 +125,11 @@ public class ExerciseCompletionController : MonoBehaviour
 	{
 		exerciseCompletionView.ShowProgressOfCompletion(600, 1f);
 		exerciseCompletionView.SetVisibillityOfIconOfCompletedAllExercises(true);
-		exerciseCompletionView.ChangeStateOfTimerButtonText();
+		exerciseCompletionView.ChangeStateOfSTartExerciseButton(false);
 		exerciseCompletionView.ShowSetupingPanelOfTimer();
+
 		yield return new WaitForSeconds(1.5f);
+		
 		mainPage.ShowThisPage();
 		exerciseCompletionView.ShowProgressOfCompletion(600, 0f);
 		exerciseCompletionView.SetVisibillityOfIconOfCompletedAllExercises(false);

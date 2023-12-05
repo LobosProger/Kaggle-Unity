@@ -51,6 +51,18 @@ public class ExerciseAnalyticsModel : MonoBehaviour
 		SaveNeedingForWorkCollectionInMemory();
 	}
 
+	private void OnApplicationFocus(bool focus)
+	{
+		if (focus)
+			SaveNeedingForWorkCollectionInMemory();
+	}
+
+	private void OnApplicationPause(bool pause)
+	{
+		if (!pause)
+			SaveNeedingForWorkCollectionInMemory();
+	}
+
 	public ExerciseCompletionShowableData GetDayDataAnalytics() => new ExerciseCompletionShowableData(completionDataByDate, 4, 1);
 
 	public ExerciseCompletionShowableData GetWeekDataAnalytics() => new ExerciseCompletionShowableData(completionDataByDate, 4, 7);

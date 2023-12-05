@@ -47,6 +47,18 @@ public class ExerciseSelectorModel : MonoBehaviour
 		SaveSelectedExercisesInMemory();
 	}
 
+	private void OnApplicationFocus(bool focus)
+	{
+		if (focus)
+			SaveSelectedExercisesInMemory();
+	}
+
+	private void OnApplicationPause(bool pause)
+	{
+		if (!pause)
+			SaveSelectedExercisesInMemory();
+	}
+
 	public bool[] GetSelectedExercises()
 	{
 		return selectedExerciseToComplete;

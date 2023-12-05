@@ -50,4 +50,16 @@ public class ExerciseCalendarModel : MonoBehaviour
 	{
 		SaveCompletedExercisesInMemory();
 	}
+
+	private void OnApplicationFocus(bool focus)
+	{
+		if (focus)
+			SaveCompletedExercisesInMemory();
+	}
+
+	private void OnApplicationPause(bool pause)
+	{
+		if(!pause)
+			SaveCompletedExercisesInMemory();
+	}
 }

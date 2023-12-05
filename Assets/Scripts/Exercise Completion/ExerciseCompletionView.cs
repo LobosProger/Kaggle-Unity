@@ -24,8 +24,6 @@ public class ExerciseCompletionView : MonoBehaviour
 	[SerializeField] private CanvasGroup setupingPanelOfTimer;
 	[SerializeField] private Image[] exerciseImages;
 
-	private bool isCompletionStarted;
-
 	private void Start()
 	{
 		addMinuteTimeButton.onClick.AddListener(OnAddTimeButtonClicked);
@@ -87,20 +85,16 @@ public class ExerciseCompletionView : MonoBehaviour
 
 	private void OnSwitchableButtonClicked()
 	{
-		ChangeStateOfTimerButtonText();
 		OnSwitchableTimerButtonClicked?.Invoke();
 	}
 
-	public void ChangeStateOfTimerButtonText()
+	public void ChangeStateOfSTartExerciseButton(bool isStartedCompletion)
 	{
-		if (!isCompletionStarted)
+		if(isStartedCompletion)
 		{
-			isCompletionStarted = true;
 			startAndStopStateOfButton.text = textWhenStartedCompletionOfExercise;
-		}
-		else
+		} else
 		{
-			isCompletionStarted = false;
 			startAndStopStateOfButton.text = textWhenStopedCompletionOfExercise;
 		}
 	}
