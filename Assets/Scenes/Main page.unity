@@ -16536,7 +16536,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8171291834453830138, guid: b329766154724ee4aad18e7f6923cb0d, type: 3}
       propertyPath: m_Alpha
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8171291834453830138, guid: b329766154724ee4aad18e7f6923cb0d, type: 3}
       propertyPath: m_BlocksRaycasts
@@ -16881,7 +16881,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8171291834453830138, guid: b329766154724ee4aad18e7f6923cb0d, type: 3}
       propertyPath: m_Alpha
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8171291834453830138, guid: b329766154724ee4aad18e7f6923cb0d, type: 3}
       propertyPath: m_BlocksRaycasts

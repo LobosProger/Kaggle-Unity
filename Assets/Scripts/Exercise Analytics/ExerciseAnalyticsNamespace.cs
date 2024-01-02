@@ -66,7 +66,7 @@ namespace ExerciseAnalyticsNamespace
 
 				float regularityForBarGraph = (float)amountOfCompletedDaysWithExercise / amountOfCollectableDaysForEachBarGraph;
 				float averageTimeForBarGraph = overallTimeForBarGraphInMinutes / (float)(amountOfCompletedDaysWithExercise * maxAmountOfCompletionExerciseInMinutes);
-				float averageDifficultyForBarGraph = overallDifficultyForBarGraph / (float)(amountOfCompletedDaysWithExercise * maxAmountOfExercises);
+				float averageDifficultyForBarGraph = overallDifficultyForBarGraph / ((float)amountOfCompletedDaysWithExercise * maxAmountOfExercises);
 
 				totalRegularityForEachBarGraph.Add(regularityForBarGraph);
 				totalAverageTimeForEachBarGraph.Add(averageTimeForBarGraph);

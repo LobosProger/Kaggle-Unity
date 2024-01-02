@@ -14,7 +14,7 @@ public class ExerciseCompletionController : MonoBehaviour
 
 	private float remainedOverallTimeOfCompletingExercises;
 	private float remainedTimeOfCompletingCurrentExercise;
-	private int totalAmountOfCompletedExercisesDuringSession = 1; // After start, we highlight first exercise, which user will complete
+	private int totalAmountOfCompletedExercisesDuringSession = 0; // After start, we highlight first exercise, which user will complete
 
 	private DateTime selectedDateTimeForCompletion;
 
@@ -63,7 +63,7 @@ public class ExerciseCompletionController : MonoBehaviour
 				remainedOverallTimeOfCompletingExercises = exerciseCompletionModel.GetTimeOfCompletionAllExercisesInSeconds();
 				remainedTimeOfCompletingCurrentExercise = exerciseCompletionModel.GetTimeOfCompletingCurrentExercise();
 				currentIndexOfSelectedExercises = 0;
-				totalAmountOfCompletedExercisesDuringSession = 1;
+				totalAmountOfCompletedExercisesDuringSession = 0;
 				SwitchIndexOfSelectedExercisesAndShowOnUI();
 				isCompletingExercisesStarted = true;
 			}

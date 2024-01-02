@@ -7,7 +7,7 @@ public class ExerciseCompletionModel : MonoBehaviour
 {
     [SerializeField] private ExerciseSelectorModel exerciseSelectorModel;
 
-	private const float initialTimeForCompletingAllExercises = 600;
+	private const float initialTimeForCompletingAllExercises = 6;
 
 	public bool[] GetAllExercises()
 	{
