@@ -4,34 +4,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ExerciseSelectorModel : MonoBehaviour
+public class ExerciseSelectorModel : SaveableModel
 {
 	private const string keyToAccessSelectedExercises = "Selected exercises";
 	private const int maxAmountOfExercises = 6;
 	private bool[] selectedExerciseToComplete = new bool[maxAmountOfExercises];
 
-	private void Awake()
+	protected override void Awake()
 	{
-		// When user opened application once and nothing was stored in memory,
-		// make all exercises selected on default
 		MakeAllExercisesSelectedOnDefaultState();
-		LoadSelectedExercisesFromMemory();
-	}
-
-	private void LoadSelectedExercisesFromMemory()
-	{
-		string json = PlayerPrefs.GetString(keyToAccessSelectedExercises);
-
-		if (json != "" && json != "[]")
-		{
-			selectedExerciseToComplete = JsonConvert.DeserializeObject<bool[]>(json);
-		}
-	}
-
-	private void SaveSelectedExercisesInMemory()
-	{
-		string json = JsonConvert.SerializeObject(selectedExerciseToComplete);
-		PlayerPrefs.SetString(keyToAccessSelectedExercises, json);
+		base.Awake();
 	}
 
 	private void MakeAllExercisesSelectedOnDefaultState()
@@ -42,30 +24,23 @@ public class ExerciseSelectorModel : MonoBehaviour
 		}
 	}
 
-	private void OnApplicationQuit()
+	protected override void ReadDataFromMemory()
 	{
-		SaveSelectedExercisesInMemory();
+		string json = PlayerPrefs.GetString(keyToAccessSelectedExercises);
+
+		if (json != "" && json != "[]")
+		{
+			selectedExerciseToComplete = JsonConvert.DeserializeObject<bool[]>(json);
+		}
 	}
 
-	private void OnApplicationFocus(bool focus)
+	protected override void SaveDataInMemory()
 	{
-		if (focus)
-			SaveSelectedExercisesInMemory();
+		string json = JsonConvert.SerializeObject(selectedExerciseToComplete);
+		PlayerPrefs.SetString(keyToAccessSelectedExercises, json);
 	}
 
-	private void OnApplicationPause(bool pause)
-	{
-		if (!pause)
-			SaveSelectedExercisesInMemory();
-	}
+	public bool[] GetAllExercises() => selectedExerciseToComplete;
 
-	public bool[] GetSelectedExercises()
-	{
-		return selectedExerciseToComplete;
-	}
-
-	public void SetSelectedExercise(int exerciseIndex, bool isSelected)
-	{
-		selectedExerciseToComplete[exerciseIndex] = isSelected;
-	}
+	public void SetSelectedExercise(int exerciseIndex, bool isSelected) => selectedExerciseToComplete[exerciseIndex] = isSelected;
 }

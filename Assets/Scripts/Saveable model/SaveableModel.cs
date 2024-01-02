@@ -2,17 +2,35 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SaveableModel : MonoBehaviour
+public abstract class SaveableModel : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    protected virtual void Awake()
     {
-        
-    }
+        ReadDataFromMemory();
+	}
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+	private void OnApplicationQuit()
+	{
+		SaveDataInMemory();
+	}
+
+	private void OnApplicationFocus(bool focus)
+	{
+		if (!focus)
+		{
+			SaveDataInMemory();
+		}
+	}
+
+	private void OnApplicationPause(bool pause)
+	{
+		if (pause)
+		{
+			SaveDataInMemory();
+		}
+	}
+
+	protected abstract void ReadDataFromMemory();
+
+    protected abstract void SaveDataInMemory();
 }

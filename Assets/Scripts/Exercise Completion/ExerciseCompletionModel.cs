@@ -7,29 +7,25 @@ public class ExerciseCompletionModel : MonoBehaviour
 {
     [SerializeField] private ExerciseSelectorModel exerciseSelectorModel;
 
-	public bool[] AllExercises => exerciseSelectorModel.GetSelectedExercises();
-	public int AmountSelectedExercises => AllExercises.Where(selectedExercise => selectedExercise == true).Count();
+	private const float initialTimeForCompletingAllExercises = 600;
 
-	private float timeOfCompletingEachExercise => (timeForCompletingExercises / AllExercises.Where(selected => selected == true).Count());
-	private float timeForCompletingExercises = 600;
-
-	public void AddMinuteToTime()
+	public bool[] GetAllExercises()
 	{
-		if(timeForCompletingExercises + 60 <= 600)
-		{
-			timeForCompletingExercises += 60;
-		}
+		bool[] selectedExercises = exerciseSelectorModel.GetAllExercises();
+		return selectedExercises;
 	}
 
-	public void RemoveMinuteToTime()
+	public int GetAmountOfSelectedExercises()
 	{
-		if(timeForCompletingExercises - 60 >= 0)
-		{
-			timeForCompletingExercises -= 60;
-		}
+		int amountOfSelectedExercises = GetAllExercises().Where(selectedExercise => selectedExercise == true).Count();
+		return amountOfSelectedExercises;
 	}
 
-	public float GetTimeOfCompletingCurrentExercise() => timeOfCompletingEachExercise;
+	public float GetTimeOfCompletingCurrentExercise()
+	{
+		float timeOfCompletingEachExercise = initialTimeForCompletingAllExercises / GetAllExercises().Where(selected => selected == true).Count();
+		return timeOfCompletingEachExercise;
+	}
 
-	public float GetTimeOfCompletionInSeconds() => timeForCompletingExercises;
+	public float GetTimeOfCompletionAllExercisesInSeconds() => initialTimeForCompletingAllExercises;
 }

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class ExerciseSelectorView : MonoBehaviour
 {
 	[SerializeField] private List<Toggle> exerciseSelectingToggles = new List<Toggle>();
-	[SerializeField] private List<Image> exerciseImages = new List<Image>();
+	[SerializeField] private List<Button> exerciseButtons = new List<Button>();
 
 	public Action<int, bool> OnClickSelectingExerciseButton;
 
@@ -18,19 +18,26 @@ public class ExerciseSelectorView : MonoBehaviour
 			// from loop. Because, lambda expressions like below can't capture needing variables from loop
 			// during executing loops (Example, counters from loop).
 			int localIndex = i;
-			exerciseSelectingToggles[localIndex].onValueChanged.AddListener((toggleState) => OnExerciseToggleClicked(localIndex, toggleState));
+			exerciseButtons[localIndex].onClick.AddListener(() => OnExerciseButtonClicked(localIndex));
 		}
 	}
 
-	private void OnExerciseToggleClicked(int exerciseIndex, bool isToggledOn)
+	private void OnExerciseButtonClicked(int exerciseIndex)
 	{
-		exerciseImages[exerciseIndex].enabled = isToggledOn;
-		OnClickSelectingExerciseButton?.Invoke(exerciseIndex, isToggledOn);
+		bool isThisExerciseActive = exerciseSelectingToggles[exerciseIndex].isOn;
+		bool currentStateOfSelectingThisExercise;
+        
+		if (isThisExerciseActive)
+        {
+			currentStateOfSelectingThisExercise = false;
+		} else
+		{
+			currentStateOfSelectingThisExercise = true;
+		}
+
+		exerciseSelectingToggles[exerciseIndex].isOn = currentStateOfSelectingThisExercise;
+		OnClickSelectingExerciseButton?.Invoke(exerciseIndex, currentStateOfSelectingThisExercise);
 	}
 
-	public void ShowSelectedExercise(int exerciseIndex, bool isSelected)
-	{
-		exerciseSelectingToggles[exerciseIndex].isOn = isSelected;
-		exerciseImages[exerciseIndex].enabled = isSelected;
-	}
+	public void ShowSelectedExercise(int exerciseIndex, bool isSelected) => exerciseSelectingToggles[exerciseIndex].isOn = isSelected;
 }

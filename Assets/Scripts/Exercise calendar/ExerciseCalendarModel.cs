@@ -5,61 +5,28 @@ using System.Linq;
 using UnityEngine;
 using Newtonsoft.Json;
 
-public class ExerciseCalendarModel : MonoBehaviour
+public class ExerciseCalendarModel : SaveableModel
 {
 	private const string keyToAccessCompletedExercises = "Completed exercises";
 	private HashSet<DateTime> completedDatesByExercise = new HashSet<DateTime>();
 
-	private void Awake()
-	{
-		LoadCompletedExercisesFromMemory();
-	}
-
-	public HashSet<DateTime> GetCompletedExercisesByDate()
-	{
-		if(completedDatesByExercise.Count == 0)
-		{
-			LoadCompletedExercisesFromMemory();
-		}
-
-		return completedDatesByExercise;
-	}
-
-	public void AddCompletedExerciseDate(DateTime dateTime)
-	{
-		completedDatesByExercise.Add(dateTime);
-	}
-
-	private void LoadCompletedExercisesFromMemory()
+	protected override void ReadDataFromMemory()
 	{
 		string json = PlayerPrefs.GetString(keyToAccessCompletedExercises);
-		
-		if(json != "")
+
+		if (json != "")
 		{
 			completedDatesByExercise = JsonConvert.DeserializeObject<HashSet<DateTime>>(json);
 		}
 	}
 
-	private void SaveCompletedExercisesInMemory()
+	protected override void SaveDataInMemory()
 	{
 		string json = JsonConvert.SerializeObject(completedDatesByExercise);
 		PlayerPrefs.SetString(keyToAccessCompletedExercises, json);
 	}
 
-	private void OnApplicationQuit()
-	{
-		SaveCompletedExercisesInMemory();
-	}
+	public void AddCompletedExerciseDate(DateTime dateTime) => completedDatesByExercise.Add(dateTime);
 
-	private void OnApplicationFocus(bool focus)
-	{
-		if (focus)
-			SaveCompletedExercisesInMemory();
-	}
-
-	private void OnApplicationPause(bool pause)
-	{
-		if(!pause)
-			SaveCompletedExercisesInMemory();
-	}
+	public HashSet<DateTime> GetCompletedExercisesByDate() => completedDatesByExercise;
 }

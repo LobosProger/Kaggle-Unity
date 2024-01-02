@@ -9,7 +9,7 @@ public class ExerciseSelectorController : MonoBehaviour
 
 	private void Start()
 	{
-		bool[] selectedExercises = exerciseSelectorModel.GetSelectedExercises();
+		bool[] selectedExercises = exerciseSelectorModel.GetAllExercises();
 		for(int i = 0; i < selectedExercises.Length; i++)
 		{
 			exerciseSelectorView.ShowSelectedExercise(i, selectedExercises[i]);

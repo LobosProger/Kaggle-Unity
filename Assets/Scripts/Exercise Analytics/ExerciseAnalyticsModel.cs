@@ -5,15 +5,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using ExerciseAnalyticsNamespace;
 
-public class ExerciseAnalyticsModel : MonoBehaviour
+public class ExerciseAnalyticsModel : SaveableModel
 {
 	public const string keyToAccessDataForAnalytics = "Data completion by dates";
 	public Dictionary<DateTime, ExerciseCompletionData> completionDataByDate = new Dictionary<DateTime, ExerciseCompletionData>();
-
-	private void Awake()
-	{
-		LoadCollectionForModelFromMemory();
-	}
 
 	private void OnEnable()
 	{
@@ -25,7 +20,7 @@ public class ExerciseAnalyticsModel : MonoBehaviour
 		ExerciseEvents.OnExerciseCompleted -= AddCompletedExerciseByDate;
 	}
 
-	private void LoadCollectionForModelFromMemory()
+	protected override void ReadDataFromMemory()
 	{
 		string json = PlayerPrefs.GetString(keyToAccessDataForAnalytics);
 		if (json != "")
@@ -34,7 +29,7 @@ public class ExerciseAnalyticsModel : MonoBehaviour
 		}
 	}
 
-	private void SaveNeedingForWorkCollectionInMemory()
+	protected override void SaveDataInMemory()
 	{
 		string json = JsonConvert.SerializeObject(completionDataByDate);
 		PlayerPrefs.SetString(keyToAccessDataForAnalytics, json);
@@ -44,23 +39,6 @@ public class ExerciseAnalyticsModel : MonoBehaviour
 	{
 		ExerciseCompletionData completionData = new ExerciseCompletionData(totalExercisesCompleted, exerciseDurationInSeconds);
 		completionDataByDate.Add(dateTime, completionData);
-	}
-
-	private void OnApplicationQuit()
-	{
-		SaveNeedingForWorkCollectionInMemory();
-	}
-
-	private void OnApplicationFocus(bool focus)
-	{
-		if (focus)
-			SaveNeedingForWorkCollectionInMemory();
-	}
-
-	private void OnApplicationPause(bool pause)
-	{
-		if (!pause)
-			SaveNeedingForWorkCollectionInMemory();
 	}
 
 	public ExerciseCompletionShowableData GetDayDataAnalytics() => new ExerciseCompletionShowableData(completionDataByDate, 4, 1);
