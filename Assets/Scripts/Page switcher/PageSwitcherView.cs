@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class PageSwitcherView : MonoBehaviour
 {
@@ -8,13 +9,13 @@ public class PageSwitcherView : MonoBehaviour
 
 	public void HidePageAndDisableRaycastInteracting()
 	{
-		currentPage.alpha = 0;
+		currentPage.DOFade(0, 0.3f).SetEase(Ease.Linear);
 		currentPage.blocksRaycasts = false;
 	}
 
 	public void ShowPageAndActivateRaycastInteracting()
 	{
-		currentPage.alpha = 1;
+		currentPage.DOFade(1, 0.3f).SetEase(Ease.Linear);
 		currentPage.blocksRaycasts = true;
 	}
 
