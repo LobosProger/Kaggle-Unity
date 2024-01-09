@@ -6,17 +6,15 @@
 * Everything is saving in memory of user (PlayerPrefs)
 * Still in development
 
-## Screenshots of application
+## Screenshots of Application
 
-![Main screen](https://github.com/LobosProger/Kaggle-Unity/assets/78168123/1993847d-f299-44d7-ae2a-3e094e6321f6)
-
-![Completion exercise](https://github.com/LobosProger/Kaggle-Unity/assets/78168123/b570ad78-e29d-4c9d-b04f-bfa5dd7e1a52)
-
-![Selecting exercises](https://github.com/LobosProger/Kaggle-Unity/assets/78168123/d55474ac-4565-4c40-a58f-268b8976fe17)
-
-![Statistics view](https://github.com/LobosProger/Kaggle-Unity/assets/78168123/c3b99d9a-73e2-4961-aed1-52b68a41feed)
-
-![Help view](https://github.com/LobosProger/Kaggle-Unity/assets/78168123/8bf8d861-7b0f-42d7-b202-32217dd9b258)
+<p align="center">
+  <img src="https://github.com/LobosProger/Kaggle-Unity/assets/78168123/1993847d-f299-44d7-ae2a-3e094e6321f6" height="500" alt="Main screen">
+  <img src="https://github.com/LobosProger/Kaggle-Unity/assets/78168123/b570ad78-e29d-4c9d-b04f-bfa5dd7e1a52" height="500" alt="Completion exercise">
+  <img src="https://github.com/LobosProger/Kaggle-Unity/assets/78168123/d55474ac-4565-4c40-a58f-268b8976fe17" height="500" alt="Selecting exercises">
+  <img src="https://github.com/LobosProger/Kaggle-Unity/assets/78168123/c3b99d9a-73e2-4961-aed1-52b68a41feed" height="500" alt="Statistics view">
+  <img src="https://github.com/LobosProger/Kaggle-Unity/assets/78168123/8bf8d861-7b0f-42d7-b202-32217dd9b258" height="500" alt="Help view">
+</p>
 
 # Features
 
@@ -51,5 +49,3 @@ https://github.com/LobosProger/Kaggle-Unity/assets/78168123/99e9f572-1a33-4b82-9
 * User can switch pages by clicking arrow buttons:
   
 https://github.com/LobosProger/Kaggle-Unity/assets/78168123/663c1c11-8e1e-4d2b-ae9b-5bf3eae88677
-
-
