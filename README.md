@@ -3,8 +3,8 @@
 * Developed a mobile application in Unity for Kegel exercises, which resolves health problem. 
 * I used the MVP architectural pattern to separate code blocks and facilitate efficient architecture development, which resulted in creating the prototype in just 4 days.
 * Application developed with designer, which created and drawn pictures, icons and entire design for application
-* Everything is saving in memory of user (PlayerPrefs)
-* Still in development
+* Everything is saving in memory of user (PlayerPrefs).
+* Still in development.
 
 ## Screenshots of Application
 
