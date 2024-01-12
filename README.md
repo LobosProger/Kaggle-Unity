@@ -1,4 +1,4 @@
-# Kaggle exercise application
+# Kegel exercise application
 
 * Developed a mobile application in Unity for Kegel exercises, which resolves health problem. 
 * I used the MVP architectural pattern to separate code blocks and facilitate efficient architecture development, which resulted in creating the prototype in just 4 days.
